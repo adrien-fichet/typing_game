@@ -4,11 +4,11 @@
 import sys
 import random
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui
 from src.life_widget import LifeWidget
 from src.words import get_word_list
 
-class HelpLabel(QtGui.QLabel):
+class HelpLabel(QtWidgets.QLabel):
     """ Label contenant un texte d'aide """
 
     def __init__(self, parent = None, aide = None):
@@ -38,7 +38,7 @@ class HelpLabel(QtGui.QLabel):
         for i in range(len(self.aide.split("\n"))):
             qp.drawText(10, 17 + 15 * i, self.aide.split("\n")[i])
 
-class MenuWidget(QtGui.QWidget):
+class MenuWidget(QtWidgets.QWidget):
     """ Menu du jeu avec le score, la vie, etc. """
 
     def __init__(self, parent = None):
@@ -56,33 +56,32 @@ class MenuWidget(QtGui.QWidget):
         help_label = HelpLabel(self, aide)
 
         # Bouton pour démarrer ou mettre en pause le jeu
-        self.start_or_pause_button = QtGui.QPushButton("Start")
+        self.start_or_pause_button = QtWidgets.QPushButton("Start")
         self.start_or_pause_button.setMinimumHeight(30)
         self.start_or_pause_button.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.connect(self.start_or_pause_button, QtCore.SIGNAL("clicked()"),
-                     self.start_or_pause_game)
+        self.start_or_pause_button.clicked.connect(self.start_or_pause_game)
 
         # Barre de vie
         self.life_bar = LifeWidget(self, 30, self.parent.nb_of_lives)
-        life_bar_layout = QtGui.QHBoxLayout()
+        life_bar_layout = QtWidgets.QHBoxLayout()
         life_bar_layout.addStretch(1)
         life_bar_layout.addWidget(self.life_bar)
         life_bar_layout.addStretch(1)
 
         # Label indiquant l'état du jeu
-        self.state_label = QtGui.QLabel("Not Running")
+        self.state_label = QtWidgets.QLabel("Not Running")
         self.state_label.setAlignment(QtCore.Qt.AlignHCenter)
 
         # Label indiquant le niveau actuel
-        self.level_label = QtGui.QLabel("Niveau 1")
+        self.level_label = QtWidgets.QLabel("Niveau 1")
         self.level_label.setAlignment(QtCore.Qt.AlignHCenter)
 
         # Label indiquant le score
-        self.score_label = QtGui.QLabel("Score : 0")
+        self.score_label = QtWidgets.QLabel("Score : 0")
         self.score_label.setAlignment(QtCore.Qt.AlignHCenter)
 
         # Layout
-        vbox = QtGui.QVBoxLayout()
+        vbox = QtWidgets.QVBoxLayout()
         vbox.addWidget(help_label)
         vbox.addWidget(self.start_or_pause_button)
         vbox.addSpacing(50)
@@ -98,7 +97,7 @@ class MenuWidget(QtGui.QWidget):
         """ Envoi du signal de démarrage ou de mise en pause au parent"""
         self.parent.typing_board.start_or_pause_game()
 
-class WordWidget(QtGui.QLabel):
+class WordWidget(QtWidgets.QLabel):
     """ Un widget représentant un mot à taper """
 
     def __init__(self, parent = None, texte = None):
@@ -141,7 +140,7 @@ class WordWidget(QtGui.QLabel):
         """ Déplacement du widget vers sa position d'origine """
         self.move(random.randint(0, 400), -40)
     
-class InputWidget(QtGui.QLineEdit):
+class InputWidget(QtWidgets.QLineEdit):
     """ Un widget pour saisir les mots """
 
     def __init__(self, parent = None):
@@ -165,8 +164,7 @@ class InputWidget(QtGui.QLineEdit):
             """)
 
         # Connection du signal émis lors de l'appui sur Entrée
-        self.connect(self, QtCore.SIGNAL("returnPressed()"),
-                     self.validate_input)
+        self.returnPressed.connect(self.validate_input)
 
     def validate_input(self):
         """ Envoi du mot saisi au widget parent pour validation """
@@ -174,7 +172,7 @@ class InputWidget(QtGui.QLineEdit):
             self.parent.validate_input(self.text())
             self.setText("")
 
-class TypingBoard(QtGui.QWidget):
+class TypingBoard(QtWidgets.QWidget):
     """ Zone de défilement des mots """
 
     def __init__(self, parent = None):
@@ -257,7 +255,6 @@ class TypingBoard(QtGui.QWidget):
         # f = open("data/mots.txt", "r")
         # word_list = f.read().split("\n")
         word_list = get_word_list()
-        word_list = [i.decode("utf-8") for i in word_list]
         random.shuffle(word_list)
         return [WordWidget(self, i) for i in word_list if i != ""]
 
@@ -296,10 +293,10 @@ class TypingBoard(QtGui.QWidget):
     def find_word_widget(self, w):
         """ Retourne le WordWidget dont le texte est w """
         for i in self.displayed_word_widgets:
-            if QtCore.QString(i.texte) == w:
+            if i.texte == w:
                 return i
 
-class TypingGame(QtGui.QWidget):
+class TypingGame(QtWidgets.QWidget):
     """ Un jeu faisant appel à la rapidité de saisie au clavier """
 
     def __init__(self, parent = None):
@@ -338,8 +335,7 @@ class TypingGame(QtGui.QWidget):
 
     def validate_input(self, w):
         """ Validation du mot saisi par le joueur """
-        words = [QtCore.QString(i.texte)
-                 for i in self.typing_board.displayed_word_widgets]
+        words = [i.texte for i in self.typing_board.displayed_word_widgets]
 
         if w in words:
             word_widget = self.typing_board.find_word_widget(w)
@@ -364,7 +360,7 @@ class TypingGame(QtGui.QWidget):
         self.typing_board.stop_game()
             
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     window = TypingGame()
     window.show()
     sys.exit(app.exec_())

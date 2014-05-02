@@ -3,9 +3,9 @@
 
 import sys
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui
 
-class LifeWidget(QtGui.QWidget):
+class LifeWidget(QtWidgets.QWidget):
     """ Un widget représentant une barre de vie """
 
     def __init__(self, parent = None, cote = 50, nb_carres_total = 5):

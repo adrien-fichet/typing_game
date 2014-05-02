@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 def get_word_list():
-    return (
+    return [
         "abricot",
         "ail",
         "aliment",
@@ -343,7 +343,7 @@ def get_word_list():
         "trampoline",
         "tunnel",
         "ventre",
-        )
+        ]
 
 if __name__ == '__main__':
     for i in get_word_list():
