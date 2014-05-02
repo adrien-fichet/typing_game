@@ -1,9 +1,9 @@
-#! /usr/bin/python
 # -*- coding: utf-8 -*-
 
 import sys
 
 from PyQt5 import QtCore, QtWidgets, QtGui
+
 
 class LifeWidget(QtWidgets.QWidget):
     """ Un widget représentant une barre de vie """
