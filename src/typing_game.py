@@ -15,7 +15,7 @@ class TypingGame(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(TypingGame, self).__init__(parent)
         self.setWindowTitle('Typing Game')
-        self.setWindowIcon(QtGui.QIcon('data/icon.png'))
+        self.setWindowIcon(QtGui.QIcon('im/icon.png'))
         self.setFixedSize(700, 550)
         self.typing_board = TypingBoard(self)
         self.typing_board.move(10, 10)
