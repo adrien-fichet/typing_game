@@ -1,8 +1,8 @@
 #-*-coding:utf-8-*-
 
 from PyQt5 import QtWidgets, QtCore
-from src.help_label import HelpLabel
-from src.life_widget import LifeWidget
+from src.menu.help_label import HelpLabel
+from src.menu.life_widget import LifeWidget
 
 
 class MenuWidget(QtWidgets.QWidget):

@@ -4,7 +4,7 @@ import sys
 import ctypes
 
 from PyQt5 import QtCore, QtWidgets, QtGui
-from src.menu_widget import MenuWidget
+from src.menu.menu_widget import MenuWidget
 from src.typing_board import TypingBoard
 from src.input_widget import InputWidget
 
