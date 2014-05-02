@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import ctypes
 
 from PyQt5 import QtCore, QtWidgets, QtGui
 from src.menu_widget import MenuWidget
@@ -20,7 +21,7 @@ class TypingGame(QtWidgets.QWidget):
     def init_UI(self):
         """ Définition de l'interface graphique """
         self.setWindowTitle("Typing Game")
-        self.setWindowIcon(QtGui.QIcon("data/snake.png"))
+        self.setWindowIcon(QtGui.QIcon("data/icon.png"))
         self.setFixedSize(700, 550)
 
         # Zone de défilement des mots
@@ -73,6 +74,7 @@ class TypingGame(QtWidgets.QWidget):
 
 
 def main():
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('sniksnp.typing_game')
     app = QtWidgets.QApplication(sys.argv)
     window = TypingGame()
     window.show()
