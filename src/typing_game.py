@@ -6,7 +6,6 @@ import random
 
 from PyQt5 import QtCore, QtWidgets, QtGui
 from src.life_widget import LifeWidget
-from src.words import get_word_list
 
 class HelpLabel(QtWidgets.QLabel):
     """ Label contenant un texte d'aide """
@@ -252,9 +251,8 @@ class TypingBoard(QtWidgets.QWidget):
 
     def retrieve_words(self):
         """ Récupération des mots du fichier "mots.txt" """
-        # f = open("data/mots.txt", "r")
-        # word_list = f.read().split("\n")
-        word_list = get_word_list()
+        f = open("data/words.txt", "r")
+        word_list = f.read().split("\n")
         random.shuffle(word_list)
         return [WordWidget(self, i) for i in word_list if i != ""]
 
